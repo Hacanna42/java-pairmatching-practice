@@ -21,4 +21,13 @@ public enum Function {
     public String getSelectName() {
         return selectName;
     }
+
+    public static Function getFunctionFrom(String selectName) {
+        for (Function function : Function.values()) {
+            if (function.selectName.equals(selectName)) {
+                return function;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] ...");
+    }
 }
