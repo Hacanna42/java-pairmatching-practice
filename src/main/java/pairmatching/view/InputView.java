@@ -4,11 +4,12 @@ import camp.nextstep.edu.missionutils.Console;
 import pairmatching.domain.Function;
 
 public class InputView {
-    public static String selectFunction() {
+    public static Function selectFunction() {
         System.out.println("기능을 선택하세요.");
         for (Function function : Function.values()) {
-            System.out.printf("%s. %s", function.getSelectName(), function.getOptionName());
+            System.out.printf("%s. %s%n", function.getSelectName(), function.getOptionName());
         }
-        return Console.readLine();
+
+        return Function.getFunctionFrom(Console.readLine());
     }
 }
