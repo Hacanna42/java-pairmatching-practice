@@ -12,13 +12,17 @@ public class Parser {
         if (splitInput.size() != 3) {
             throw new IllegalArgumentException("[ERROR] ...");
         }
-        String courseName = splitInput.getFirst();
-        String levelName = splitInput.get(1);
-        String missionName = splitInput.getLast();
+        String courseName = splitInput.getFirst().trim();
+        String levelName = splitInput.get(1).trim();
+        String missionName = splitInput.getLast().trim();
 
         Course course = Course.fromName(courseName);
         Level level = Level.fromName(levelName);
         Mission mission = Mission.fromName(missionName);
+
+        if (!mission.isSameLevel(level)) {
+            throw new IllegalArgumentException("[ERROR] 똑같은 레벨이 아닙니다.");
+        }
 
         return new SelectedTargetDto(course, level, mission);
     }
