@@ -25,4 +25,17 @@ public enum Course {
 
         return courses;
     }
+
+    public static Course fromName(String name) {
+        for (Course course : Course.values()) {
+            if (course.name.equals(name)) {
+                return course;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] ...");
+    }
+
+    public boolean isBackend() {
+        return this == Course.BACKEND;
+    }
 }

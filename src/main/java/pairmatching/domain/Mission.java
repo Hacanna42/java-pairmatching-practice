@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Mission {
-    CAR_RACING("자동차 경주", Level.LEVEL1),
+    CAR_RACING("자동차경주", Level.LEVEL1),
     LOTTO("로또", Level.LEVEL1),
     BASEBALL("숫자야구게임", Level.LEVEL1),
 
@@ -32,5 +32,22 @@ public enum Mission {
         }
 
         return foundNames;
+    }
+
+    public static Mission fromName(String name) {
+        for (Mission mission : Mission.values()) {
+            if (mission.name.equals(name)) {
+                return mission;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] ...");
+    }
+
+    public boolean isSameLevel(Level level) {
+        return this.level == level;
+    }
+
+    public boolean isSameLevel(Mission mission) {
+        return this.level == mission.level;
     }
 }

@@ -16,4 +16,13 @@ public enum Level {
     public String getName() {
         return name;
     }
+
+    public static Level fromName(String name) {
+        for (Level level : Level.values()) {
+            if (level.name.equals(name)) {
+                return level;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] ...");
+    }
 }
