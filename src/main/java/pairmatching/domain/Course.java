@@ -32,7 +32,7 @@ public enum Course {
                 return course;
             }
         }
-        throw new IllegalArgumentException("[ERROR] ...");
+        throw new IllegalArgumentException("Course를 찾을 수 없습니다.");
     }
 
     public boolean isBackend() {

@@ -40,7 +40,7 @@ public enum Mission {
                 return mission;
             }
         }
-        throw new IllegalArgumentException("[ERROR] ...");
+        throw new IllegalArgumentException("올바르지 않은 미션입니다.");
     }
 
     public boolean isSameLevel(Level level) {

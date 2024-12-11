@@ -24,16 +24,33 @@ public class PairService {
         this.pairStatus = PairStatus.getInstance();
     }
 
-    public PairMatchingResultDto matchingPair(SelectedTargetDto selectedTargetDto) {
+    public void clearPairStatus() {
+        pairStatus.clear();
+    }
+
+    public PairMatchingResultDto matchingPair(SelectedTargetDto selectedTargetDto, boolean isForced) {
         Course targetCourse = selectedTargetDto.course();
         Mission targetMission = selectedTargetDto.mission();
         List<Crew> targetCrews = crews.getCrewsFrom(targetCourse);
 
-        if (pairStatus.isAlreadyMatched(targetCourse, targetMission)) {
-            return PairMatchingResultDto.makeErrorFrom(PairMatchingResult.IS_ALREADY_MATCHED);
+        if (pairStatus.isAlreadyMatched(targetCourse, targetMission) && !isForced) {
+            return PairMatchingResultDto.makeResultFrom(PairMatchingResult.IS_ALREADY_MATCHED);
         }
 
         return processPairMatching(targetCourse, targetMission, targetCrews);
+    }
+
+    public PairMatchingResultDto checkPair(SelectedTargetDto selectedTargetDto) {
+        Course targetCourse = selectedTargetDto.course();
+        Mission targetMission = selectedTargetDto.mission();
+        if (!pairStatus.isAlreadyMatched(targetCourse, targetMission)) {
+            return PairMatchingResultDto.makeResultFrom(PairMatchingResult.NO_MATCHING_LOG);
+        }
+
+        MatchedPair matchedPair = pairStatus.getMatchedPairFrom(targetMission);
+        List<Pair> pairs = matchedPair.getPairsFrom(targetCourse);
+
+        return new PairMatchingResultDto(PairMatchingResult.SUCCESS, pairs);
     }
 
     private PairMatchingResultDto processPairMatching(Course course, Mission mission, List<Crew> crews) {
@@ -42,7 +59,7 @@ public class PairService {
         do {
             tryCount++;
             if (tryCount > 3) {
-                return PairMatchingResultDto.makeErrorFrom(PairMatchingResult.FAILED_MATCHING);
+                return PairMatchingResultDto.makeResultFrom(PairMatchingResult.FAILED_MATCHING);
             }
             pairs = getPairs(Randoms.shuffle(crews));
         } while (pairStatus.hasDuplicatedPairInSameLevel(course, mission, pairs));

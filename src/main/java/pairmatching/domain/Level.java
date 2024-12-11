@@ -23,6 +23,6 @@ public enum Level {
                 return level;
             }
         }
-        throw new IllegalArgumentException("[ERROR] ...");
+        throw new IllegalArgumentException("올바르지 않은 레벨입니다.");
     }
 }

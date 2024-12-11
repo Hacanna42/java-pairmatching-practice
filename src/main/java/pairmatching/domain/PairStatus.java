@@ -16,6 +16,10 @@ public class PairStatus {
         return new PairStatus(new HashMap<>());
     }
 
+    public void clear() {
+        pairStatus.clear();
+    }
+
     public boolean isAlreadyMatched(Course course, Mission mission) {
         if (!pairStatus.containsKey(mission)) {
             return false;
